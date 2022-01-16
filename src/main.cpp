@@ -21,12 +21,23 @@
 #include <WiFiManager.h>
 #include <time.h>
 #include <cstdlib>
+#include <TZ.h>
 
+// Set to your timezone as defined in TZ.h
+#define TIMEZONE  TZ_America_Los_Angeles
+// Host name and AP name for WIFi configuration
+#define HOSTNAME  "NTPGPSSpoofer"
+#define AP_SSID   "NTPGPSSpoofer"
+
+// This is the faked location. The format is
+// DDMM.MMMMMMMM,[E|W|N|S]
+// i.e. degrees, minutes, fractional minutes.
+// For example,
+// 12146.12345,E
+// would be 121 degrees, 45.12345 minutes East
 static const char *latitude = "3800.00,N";
 static const char *longitude = "12100.00,W";
 
-int8_t timeZone = -8;
-int8_t minutesTimeZone = 0;
 bool wifiFirstConnected = true;
 void onSTAConnected(WiFiEventStationModeConnected ipInfo)
 {
@@ -92,15 +103,17 @@ void setup() {
 
   Serial.begin(115200);
   Serial1.begin(9600);
-  configTime(0, 0, "pool.ntp.org");
-  setenv("TZ", "PST8PDT,M3.2.0/2:00:00,M11.1.0/2:00:00", 0);
-  tzset();
+  // pool.ntp.org is a fallback - it should use whichever
+  // NTP server is reported by DHCP as the primary
+  configTime(TIMEZONE, "pool.ntp.org");
   Serial.println("Initializing WiFi connection...");
   e1 = WiFi.onStationModeGotIP(onSTAGotIP); // As soon WiFi is connected, start NTP Client
   e2 = WiFi.onStationModeDisconnected(onSTADisconnected);
   e3 = WiFi.onStationModeConnected(onSTAConnected);
+  WiFi.hostname(HOSTNAME);
+  wifiManager.setHostname(HOSTNAME);
   wifiManager.setAPCallback(configModeCallback);
-  wifiManager.autoConnect("NTPGPSSpoofer");
+  wifiManager.autoConnect(AP_SSID);
 }
 
 void loop() {
@@ -109,8 +122,7 @@ void loop() {
   static time_t lastsecond = 0;
   time_t newsecond;
   static uint8_t heartbeat = LOW;
-  struct tm *lt;
-
+ 
   if (wifiFirstConnected)
   {
     wifiFirstConnected = false;
@@ -122,9 +134,11 @@ void loop() {
     if ((newsecond = time(NULL)) != lastsecond)
     {
       digitalWrite(LED_BUILTIN, heartbeat);
-      lt = localtime(&newsecond);
+#ifdef PRINT_HEARTBEAT
+      struct tm *lt = localtime(&newsecond);
       Serial.printf("%02d:%02d:%02d %s\r\n", lt->tm_hour, lt->tm_min, lt->tm_sec,
         (heartbeat == HIGH) ? "HIGH" : "LOW");
+#endif
       heartbeat = (heartbeat == LOW) ? HIGH : LOW;
       lastsecond = newsecond;
       sendTime(&newsecond);
