@@ -38,7 +38,6 @@
 static const char *latitude = "3800.00,N";
 static const char *longitude = "12100.00,W";
 
-bool wifiFirstConnected = true;
 void onSTAConnected(WiFiEventStationModeConnected ipInfo)
 {
   Serial.printf("Connected to %s\r\n", ipInfo.ssid.c_str());
@@ -50,7 +49,6 @@ void onSTAGotIP(WiFiEventStationModeGotIP ipInfo)
   Serial.printf("Got IP: %s\r\n", ipInfo.ip.toString().c_str());
   Serial.printf("Connected: %s\r\n", WiFi.status() == WL_CONNECTED ? "yes" : "no");
   digitalWrite(LED_BUILTIN, LOW); // Turn on LED
-  wifiFirstConnected = true;
 }
 
 // Manage network disconnection
@@ -123,11 +121,6 @@ void loop() {
   time_t newsecond;
   static uint8_t heartbeat = LOW;
  
-  if (wifiFirstConnected)
-  {
-    wifiFirstConnected = false;
-  }
-
   if ((millis() - last) > 10)
   {
     last = millis();
