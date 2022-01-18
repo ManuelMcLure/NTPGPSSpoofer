@@ -21,7 +21,7 @@ time from GPS `$GPRMC` sentences.
     Set the time zone on your clock to GMT/UTC.
 * Set the spoofed position.
     The format for the `latitude` and `longitude` variables is
-    `"MMDD.DDDDD,[E|W|N|S]"`
+    `"DDMM.MMMM,[E|W|N|S]"`
     i.e. degrees * 100 + minutes and fractions. For example, to represent longitude 121 degrees, 56.1234 minutes West use
 
     `static const char *longitude = "12156.1234,W";`
