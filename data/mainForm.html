@@ -1,0 +1,112 @@
+<html>
+
+<head>
+    <title>%HOSTNAME% Control</title>
+    <style>
+        .inputForm table {
+            width: auto !important;
+            table-layout: auto !important;
+        }
+
+        .inputForm td {
+            width: auto !important;
+            white-space: nowrap;
+        }
+
+        .inputForm td:last-child {
+            padding-left: 1em;
+        }
+    </style>
+    <script>
+        // without jQuery (doesn't work in older IEs)
+        document.addEventListener('DOMContentLoaded', function () {
+            enableTZBox();
+        }, false);
+        function validateForm() {
+            const floatRegex = new RegExp('^\\s*\\d*\\.?\\d+\\s*$');
+            let latitudeStr = document.getElementById("latitude").value;
+           if (!floatRegex.test(latitudeStr)) {
+                alert("Latitude must be a floating point value");
+                return false;
+            }
+            let longitudeStr = document.getElementById("longitude").value;
+            if (!floatRegex.test(longitudeStr)) {
+                alert("Longitude must be a floating point value");
+                return false;
+            }
+
+        }
+        function enableTZBox() {
+            let tzField = document.getElementById("timeZoneDefinition");
+            if (document.getElementById("useGMT").checked)
+                tzField.setAttribute("disabled", true);
+            else
+                tzField.removeAttribute("disabled");
+        }
+    </script>
+</head>
+
+<body>
+    <div class="inputForm">
+        <form method="post" action="/update" onsubmit="return validateForm()">
+            <table>
+                <tr>
+                    <td>Host Name:</td>
+                    <td><input name="hostname" type="text" maxlength=31 value="%PLACEHOLDER_HOSTNAME%" /></td>
+                </tr>
+                <tr>
+                    <td>Latitude</td>
+                    <td>
+                        <input name="latitude" id="latitude" type="text" maxlength=12 value="%PLACEHOLDER_LATITUDE%" />
+                        <input name="latitude_ns" type="radio" id="latn" value="N" %PLACEHOLDER_NCHECKED% />
+                        <label for="latn">N</label>
+                        <input name="latitude_ns" type="radio" id="lats" value="S" %PLACEHOLDER_SCHECKED% />
+                        <label for="lats">S</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Longitude</td>
+                    <td>
+                        <input name="longitude" id="longitude" type="text" maxlength=12 value="%PLACEHOLDER_LONGITUDE%" />
+                        <input name="longitude_ew" type="radio" id="longe" value="E" %PLACEHOLDER_ECHECKED% />
+                        <label for="longe">E</label>
+                        <input name="longitude_ew" type="radio" id="longw" value="W" %PLACEHOLDER_WCHECKED% />
+                        <label for="longw">W</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Timezone</td>
+                    <td>
+                        <div>
+                            <input name="useGMT" type="checkbox" id="useGMT" %PLACEHOLDER_USEGMTCHECKED%
+                                onClick="enableTZBox(this)" />
+                            <label for="useGMT">Use GMT/UTC</label>
+                        </div>
+                        <div>
+                            <input name="timeZoneDefinition" id="timeZoneDefinition" type="text" maxlength=40
+                                value="%PLACEHOLDER_TIMEZONEDEFINITION%" />
+                            <label for="timeZoneDefinition">Time Zone Definition</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input name="heartbeat" type="checkbox" %PLACEHOLDER_HEARTBEAT%/>
+                        <label for="heartbeat">LED Heartbeat</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input name="submit" type="submit" value="Update Settings"/>
+                    </td>
+                    <td>
+                        <input name="submit_reset" type="submit" value="Update and Reset"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+
+</html>
