@@ -12,7 +12,7 @@ time from GPS `$GPRMC` sentences.
 
 ## Wiring
 
-Provide +5V to the `Vin` pin on your ESP8266, ground to any of the `GND` pins, and connect the input signal to the clock to the `GPIO2` pin (`D4` on a NodeMCU).
+Provide +5V to the `Vin` pin on your ESP8266, ground to any of the `GND` pins, and connect the input signal to the clock to the `GPIO1` pin (`TX` on a NodeMCU).
 
 ## Running
 
@@ -20,7 +20,7 @@ I recommend testing the program before hooking it up to the clock (it's a good i
 
 `$GPRMC,160045,A,3800.00,N,12100.00,W,0.0,0.0,311269,0.0,W*77`
 
-once a second. This is the same message that is being output to `GPIO2` for the clock to consume.
+once a second. This is the same message that is being output to `GPIO1` for the clock to consume.
 
 Once the server is running, you can connect to the IP address of the ESP8266 (should appear in the debug output) or to hostname "NTPGPSSpoofer" (default) to configure through the web page.
 

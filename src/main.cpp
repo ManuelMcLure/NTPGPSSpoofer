@@ -63,7 +63,6 @@ void sendTime(time_t *timestamp)
   sprintf(sendBuffer + sentencelen, "%02X", (unsigned int)checksum);
 
   Serial.println(sendBuffer);
-  Serial1.println(sendBuffer);
 }
 
 String templateProcessor(const String &var)
@@ -136,8 +135,7 @@ void setup()
   wifiManager = new ESPAsync_WiFiManager_Lite();
   AsyncWebServer *webServer = new AsyncWebServer(80);
 
-  Serial.begin(115200);
-  Serial1.begin(9600);
+  Serial.begin(9600);
   LittleFS.begin();
 
   config = new NTPGPSSpooferConfiguration();
