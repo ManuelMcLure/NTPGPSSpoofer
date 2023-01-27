@@ -48,7 +48,7 @@ A recipe is of the form:
 
 Where **STD** is the three letter designation for the standard time zone (e.g. **PST**), *offset* is the standard time zone offset from GMT, **DST** is the three letter designation for the DST time zone, and *m*, *w* and *d* are the month, occurrence of the specified day within the month and day of week when the time zone changes. For example, the (current) full definition for Pacific time is:
 
-PST8PDT,M3,2,0,M11,1,0
+PST8PDT,M3.2.0,M11.1.0
 
 This means that the standard offset will be 8, DST will start on the second (w=2) Sunday (d=0) of March (m=3), and end on the first (w=1) Sunday (d=0) of November (m=11).
 
