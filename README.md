@@ -7,7 +7,7 @@ time from GPS `$GPRMC` sentences.
 ## Features
 
 - Automatic DST support for clocks that don't have this included.
-- If WiFi connection information isn't configured, the process will start an Access Point (SSID **NTPGPSSpooferAP** by default) which you can connect to that will request the WiFi information (courtesy of the ESPAsync_WiFiManager_Lite library)
+- If WiFi connection information isn't configured, the process will start an Access Point (SSID **NTPGPSSpooferAP**, password **NTPGPSSpooferAP** by default) which you can connect to that will request the WiFi information (courtesy of the ESPAsync_WiFiManager_Lite library)
 - Once connected, there will be a web page that allows configuring some of the settings, such as the time zone definition and spoofed location.
 
 ## Wiring
