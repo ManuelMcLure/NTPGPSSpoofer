@@ -12,7 +12,7 @@ time from GPS `$GPRMC` sentences.
 
 ## Wiring
 
-Provide +5V to the `Vin` pin on your ESP8266, ground to any of the `GND` pins, and connect the input signal to the clock to the `GPIO1` pin (`TX` on a NodeMCU).
+Provide +5V to the `Vin` pin on your ESP8266 development board (make sure that you're _not_ connecting to V3.3 but rather to the pin that goes to the onboard voltage regulator (Vin on the NodeMCU), ground to any of the `GND` pins, and connect the input signal to the clock to the `GPIO1` pin (`TX` on a NodeMCU).
 
 ## Running
 
@@ -38,7 +38,7 @@ There are two ways to set the time zone information. Note that GPS messages only
 
 If you are in a time zone that does not have Daylight Saving Time, or your clock is smart enough to handle time changes on its own, the easiest option is to check the "Use GMT/UTC" check box and set the clock's timezone appropriately. If you don't mind changing the clock yourself twice a year you can also select this option if you're in a time zone that does DST, you'll just have to adjust the clock time zone twice a year.
 
-If, like me, you want your clock to automatically adjust the time but the clock doesn't support this, we can "trick" the clock by sending the correct local time in the GPS messages, and letting the clock think that it's displaying GMT. To do this, uncheck the "Used GMT/UTC" checkbox, and enter a time zone recipe in the "Timezone" field.
+If, like me, you want your clock to automatically adjust the time but the clock doesn't support this, we can "trick" the clock by sending the correct local time in the GPS messages, and letting the clock think that it's displaying GMT. To do this, uncheck the "Use GMT/UTC" checkbox, and enter a time zone recipe in the "Timezone" field.
 
 Please note that due to the limited program space on the 8266, it does not have the library of time zones that is common on Linux systems, so you can't just specify "America/Los_Angeles" or "PST8PDT" - instead you will need to specify what the rules are for the time change.
 
@@ -46,7 +46,7 @@ A recipe is of the form:
 
 **STD***offset***DST**,M*m*.*w*.*d*,M*m*.*w*.*d*
 
-Where **STD** is the three letter designation for the standard time zone (e.g. **PST**), *offset* is the standard time zone offset from GMT, **DST** is the three letter designation for the DST time zone, and *m*, *w* and *d* are the month, occurrence of the specified day within the month and day of week when the time zone changes. For example, the full definition for Pacific time is:
+Where **STD** is the three letter designation for the standard time zone (e.g. **PST**), *offset* is the standard time zone offset from GMT, **DST** is the three letter designation for the DST time zone, and *m*, *w* and *d* are the month, occurrence of the specified day within the month and day of week when the time zone changes. For example, the (current) full definition for Pacific time is:
 
 PST8PDT,M3,2,0,M11,1,0
 
